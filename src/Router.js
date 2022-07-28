@@ -13,7 +13,7 @@ function Router() {
         <BrowserRouter>
             <Routes>
                 <Route path='/airdrop' element={<ProtectedRoute component={Airdrop} />}></Route>
-                <Route path='/login' element={<PublicRoutes component={Login} />}></Route>
+                <Route path='/' element={<PublicRoutes component={Login} />}></Route>
                 <Route path='/dashboard' element={<ProtectedRoute component={NFTInfo} />}></Route>
             </Routes>
         </BrowserRouter>

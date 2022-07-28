@@ -77,7 +77,7 @@ function AirdropChild({ type }) {
                         </div>
                         <div className="col-8 input-address">
                             <textarea
-                                className="ml-4 mt-3"
+                                className="ml-4 mt-3 w-100"
                                 id={`addresses${type === 0 ? 1 : 0}`}
                                 placeholder="Paste addresses here. Please be certain that they are all on the Polygon Network."
                             ></textarea>

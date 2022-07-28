@@ -112,7 +112,7 @@ body {
 .input-address textarea {
     padding: 15px 20px;
     font-size: 18px;
-    width: 480px;
+    /* width: 480px; */
     height: 560px;
 }
 

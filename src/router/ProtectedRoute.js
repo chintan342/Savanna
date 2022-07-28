@@ -8,7 +8,7 @@ const ProtectedRoute = ({component: Component, ...rest}) => {
 		<>
 			<Component {...rest} />
 		</>
-		: <Navigate to="/login" />
+		: <Navigate to="/" />
 	);
 }
 
