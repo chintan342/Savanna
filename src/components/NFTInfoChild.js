@@ -14,11 +14,11 @@ function NFTInfoChild({ state, type, title }) {
         useContext(WalletContext);
     const { data, getNftData } = useContext(NftDataContext);
 
-    // console.log("data = ", data);
+    console.log("data = ", data);
 
-    const handleUri = async (claim) => {
+    const handleUri = async (nftType) => {
         try {
-            if (!medalType && claim !== "claim") {
+            if (!medalType && (nftType !== "public" || nftType !== "media")) {
                 return cogoToast.error("Please select any type");
             }
 
@@ -28,17 +28,19 @@ function NFTInfoChild({ state, type, title }) {
 
             let uri;
 
-            if (medalType === 1) {
+            if (medalType === 1 && nftType === "") {
                 uri = data[type].gold_uri;
-            } else if (medalType === 2) {
+            } else if (medalType === 2 && nftType === "") {
                 uri = data[type].silver_uri;
-            } else if (medalType === 3) {
+            } else if (medalType === 3 && nftType === "") {
                 uri = data[type].bronze_uri;
-            } else if (medalType === 4 || claim === 'claim') {
+            } else if (medalType === 4 || nftType === 'public') {
                 uri = data[type].claim_uri;
             }
 
-            if (claim !== "claim" || (claim === "claim" && data[type].state.toLowerCase() === "unclaimed" && type === 0)) {
+            console.log("public uri = ", uri);
+
+            if (nftType === "" || (nftType === "public" && data[type].state.toLowerCase() === "unclaimed")) {
                 const response = await contract.methods.setPubNftUri(uri).send({
                     from: accountID
                 });
@@ -58,7 +60,7 @@ function NFTInfoChild({ state, type, title }) {
 
             // console.log({ ...data[type], rank: selected.toUpperCase() });
 
-            if (medalType === 4 || claim === 'claim') {
+            if (medalType === 4 || nftType === 'public' || nftType === "media") {
                 await api.post(`/nft/${data[type]._id}/update`, {
                     ...data[type],
                     rank:
@@ -162,7 +164,11 @@ function NFTInfoChild({ state, type, title }) {
                                     const answer = window.confirm("Are you sure?");
                                     // console.log(answer);
                                     if(answer) {
-                                        handleUri("claim");
+                                        if(type === 0) {
+                                            handleUri("public");
+                                        } else {
+                                            handleUri("media");
+                                        }
                                     }
                                 }}
                             >
