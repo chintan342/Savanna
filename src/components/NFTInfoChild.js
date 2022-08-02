@@ -14,7 +14,7 @@ function NFTInfoChild({ state, type, title }) {
         useContext(WalletContext);
     const { data, getNftData } = useContext(NftDataContext);
 
-    console.log("data = ", data);
+    // console.log("data = ", data);
 
     const handleUri = async (claim) => {
         try {
@@ -38,14 +38,25 @@ function NFTInfoChild({ state, type, title }) {
                 uri = data[type].claim_uri;
             }
 
-            if (claim !== "claim" || (claim === "claim" && data[type].state.toLowerCase() === "unclaimed")) {
+            if (claim !== "claim" || (claim === "claim" && data[type].state.toLowerCase() === "unclaimed" && type === 0)) {
                 const response = await contract.methods.setPubNftUri(uri).send({
                     from: accountID
                 });
             }
 
+            if (type === 1) {
+                if (data[1].state.toLowerCase() === "unclaimed") {
+                    const response = await contract.methods.setMediaNftUri(data[1].claim_uri).send({
+                        from: accountID
+                    });
+                } else if (data[1].state.toLowerCase() === "claimed") {
+                    const response = await contract.methods.setMediaNftUri(data[1].media_uri).send({
+                        from: accountID
+                    });
+                }
+            }
 
-            console.log({ ...data[type], rank: selected.toUpperCase() });
+            // console.log({ ...data[type], rank: selected.toUpperCase() });
 
             if (medalType === 4 || claim === 'claim') {
                 await api.post(`/nft/${data[type]._id}/update`, {
@@ -149,7 +160,7 @@ function NFTInfoChild({ state, type, title }) {
                                 onClick={async () => {
                                     await setMedalType(4);
                                     const answer = window.confirm("Are you sure?");
-                                    console.log(answer);
+                                    // console.log(answer);
                                     if(answer) {
                                         handleUri("claim");
                                     }
