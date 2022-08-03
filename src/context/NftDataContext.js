@@ -9,9 +9,12 @@ export class NftDataContextProvider extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            loading: false
         }
     }
+
+    handleLoading = () => this.setState({loading: !this.state.loading})
 
     getNftData = async() => {
         try {

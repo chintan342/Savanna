@@ -236,6 +236,17 @@ body {
     background-color: red;
 }
 
+.owned div {
+    display: inline-block;
+}
+
+.owned .medal {
+    margin-top: 40px;
+}
+
+.disable-pointer {
+    pointer-events: none;
+}
 @media (max-width: 1480px) {
     .input-address textarea {
         margin-left: 3rem!important;

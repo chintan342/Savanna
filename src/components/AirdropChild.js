@@ -82,7 +82,7 @@ function AirdropChild({ type }) {
                                 placeholder="Paste addresses here. Please be certain that they are all on the Polygon Network."
                             ></textarea>
                             <span
-                                className="airdrop-button"
+                                className={`airdrop-button ${loading ? 'disable-pointer' : ""}`}
                                 onClick={handleAirdrop}
                             >
                                 {loading ? "Please Wait..." : "AIRDROP"}

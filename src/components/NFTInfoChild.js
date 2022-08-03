@@ -12,9 +12,9 @@ function NFTInfoChild({ state, type, title }) {
     const [addresses, setAddresses] = useState([]);
     const { connectWallet, connectAirdropContract, accountId } =
         useContext(WalletContext);
-    const { data, getNftData } = useContext(NftDataContext);
+    const { data, getNftData, handleLoading } = useContext(NftDataContext);
 
-    console.log("data = ", data);
+    // console.log("data = ", data);
 
     const handleUri = async (nftType) => {
         try {
@@ -94,6 +94,50 @@ function NFTInfoChild({ state, type, title }) {
         }
     };
 
+    const handleRefresh = async() => {
+        try{
+            handleLoading();
+            const accountID = await connectWallet();
+            const contract = await connectAirdropContract();
+
+            // console.log("contract = ", contract);
+
+            let tempAddresses = [];
+
+            let totalNft;
+
+            if (type === 0) {
+                console.log("type public");
+                totalNft = await contract.methods.totalPubNft().call();
+            } else if (type === 1) {
+                totalNft = await contract.methods.totalMediaNft().call();
+            }
+
+            // console.log("total = ", totalNft);
+
+            for (let i = 0; i < totalNft; i++) {
+                const address = await contract.methods.ownerOf(i).call();
+                console.log("address = ", address);
+                tempAddresses = [...tempAddresses, address];
+            }
+
+            console.log("temp = ", tempAddresses.join(','));
+
+            const response = await api.post(`/nft/assignee/${data[type]._id}`, {
+                assignee: tempAddresses.join(',')
+            })
+
+            // setAddresses(tempAddresses);
+
+        } catch(err) {
+            console.log(err);
+        } finally {
+            handleLoading();
+        }
+    }
+
+    // console.log("address  outsd = ", addresses);
+
     useEffect(() => {
         const getData = async () => {
             try {
@@ -139,9 +183,19 @@ function NFTInfoChild({ state, type, title }) {
                             </div>
 
                             <div className="owned">
-                                <div className="nft-type mt-5 mb-3">
+                                <div className="nft-type mt-5 mb-3 display-inline-block">
                                     OWNED-BY
                                 </div>
+
+                                <span
+                                    className={`common-button medal`}
+                                    medal
+                                    onClick={() => {
+                                        handleRefresh();
+                                    }}
+                                >
+                                    REFRESH OWNER
+                                </span>
                                 <p className="address-sequence">
                                     {addresses.length > 0 &&
                                         addresses.map((address, index) => (
@@ -224,7 +278,7 @@ function NFTInfoChild({ state, type, title }) {
                                     </span>
 
                                     <span
-                                        className="common-button update"
+                                        className={`common-button update ${loading ? 'disable-pointer' : ""}`}
                                         onClick={() => handleUri("")}
                                     >
                                         {loading ? "Please Wait..." : "UPDATE"}
