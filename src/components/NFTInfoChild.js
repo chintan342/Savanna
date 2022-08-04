@@ -154,6 +154,8 @@ function NFTInfoChild({ state, type, title }) {
             getData();
         }
     }, [data]);
+
+    console.log("addresses = ", addresses);
     return (
         <>
             <div className="col-6 ">
@@ -183,6 +185,7 @@ function NFTInfoChild({ state, type, title }) {
                             </div>
 
                             <div className="owned">
+                                <div className="d-flex justify-content-between">
                                 <div className="nft-type mt-5 mb-3 display-inline-block">
                                     OWNED-BY
                                 </div>
@@ -196,8 +199,9 @@ function NFTInfoChild({ state, type, title }) {
                                 >
                                     REFRESH OWNER
                                 </span>
+                                </div>
                                 <p className="address-sequence">
-                                    {addresses.length > 0 &&
+                                    {addresses.length > 0 ?
                                         addresses.map((address, index) => (
                                             <p key={`${title}-${index}`}>
                                                 <span>#{index} - </span>
@@ -205,7 +209,10 @@ function NFTInfoChild({ state, type, title }) {
                                                     address.assignee_wallet_address
                                                 }
                                             </p>
-                                        ))}
+                                        ))
+                                        :
+                                        null
+                                    }
                                 </p>
                             </div>
                         </div>

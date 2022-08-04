@@ -242,6 +242,8 @@ body {
 
 .owned .medal {
     margin-top: 40px;
+    position: unset;
+    height: 43px;
 }
 
 .disable-pointer {
