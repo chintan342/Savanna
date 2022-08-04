@@ -67,7 +67,7 @@ export class WalletContextProvider extends Component {
 
                     return accountID;
                 } else {
-                    cogoToast.error("Please connect to Ropsten Testnet");
+                    cogoToast.error("Please connect wallet to Polygon Mainnet");
                 }
 
             } catch(err) {
