@@ -6,7 +6,7 @@ import { WalletContext } from "../context/Wallet";
 import api from "../lib/api";
 
 function AirdropChild({ type }) {
-    const { connectWallet, connectAirdropContract, accountId, web3Provider } =
+    const { connectWallet, connectAirdropContract } =
         useContext(WalletContext);
     const { data } = useContext(NftDataContext);
     const [loading, setLoading] = useState(false);
@@ -14,10 +14,10 @@ function AirdropChild({ type }) {
     const handleAirdrop = async () => {
         try {
             setLoading(true);
-            const accountID = await connectWallet();
-            console.log("connected");
+            const {accountID, web3} = await connectWallet();
+            // console.log("connected");
             const contract = await connectAirdropContract();
-            console.log("contract connected");
+            // console.log("contract connected");
 
             let addresses = document.getElementById(
                 `addresses${type === 0 ? 1 : 0}`
@@ -31,7 +31,7 @@ function AirdropChild({ type }) {
                 .airdropBatch(addressesArr, type === 0 ? 1 : 0)
                 .send({
                     from: accountID,
-                    gasPrice:web3Provider.utils.toWei("50", "gwei")
+                    gasPrice: web3.utils.toWei("50", "gwei")
                 });
 
             const apiResponse = await api.post(

@@ -65,7 +65,7 @@ export class WalletContextProvider extends Component {
                         }
                     );
 
-                    return accountID;
+                    return {accountID, web3};
                 } else {
                     cogoToast.error("Please connect wallet to Polygon Mainnet");
                 }
