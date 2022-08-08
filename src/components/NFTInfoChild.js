@@ -10,7 +10,7 @@ function NFTInfoChild({ state, type, title }) {
     const [loading, setLoading] = useState(false);
     const [selected, setSelected] = useState("");
     const [addresses, setAddresses] = useState([]);
-    const { connectWallet, connectAirdropContract, accountId } =
+    const { connectWallet, connectAirdropContract, accountId, web3Provider } =
         useContext(WalletContext);
     const { data, getNftData, handleLoading } = useContext(NftDataContext);
 
@@ -42,18 +42,21 @@ function NFTInfoChild({ state, type, title }) {
 
             if (nftType === "" || (nftType === "public" && data[type].state.toLowerCase() === "unclaimed")) {
                 const response = await contract.methods.setPubNftUri(uri).send({
-                    from: accountID
+                    from: accountID,
+                    gasPrice:web3Provider.utils.toWei("50", "gwei")
                 });
             }
 
             if (type === 1) {
                 if (data[1].state.toLowerCase() === "unclaimed") {
                     const response = await contract.methods.setMediaNftUri(data[1].claim_uri).send({
-                        from: accountID
+                        from: accountID,
+                        gasPrice:web3Provider.utils.toWei("50", "gwei")
                     });
                 } else if (data[1].state.toLowerCase() === "claimed") {
                     const response = await contract.methods.setMediaNftUri(data[1].media_uri).send({
-                        from: accountID
+                        from: accountID,
+                        ggasPriceas:web3Provider.utils.toWei("50", "gwei")
                     });
                 }
             }
