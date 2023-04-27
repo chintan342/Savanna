@@ -256,3 +256,11 @@ body {
         max-height: 500px;
     }
 }
+
+.page-link {
+    border-radius: 0% !important;
+}
+
+.visually-hidden {
+    display: none;
+}

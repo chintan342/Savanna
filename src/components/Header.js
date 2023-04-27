@@ -11,6 +11,7 @@ function Header() {
             </NavLink>
             <NavLink to='/airdrop' className="navlink ml-5">Airdrop</NavLink>
             <NavLink to='/dashboard' className="navlink">Dashboard</NavLink>
+            <NavLink to='/dashboard-burn' className="navlink">Dashboard Burn</NavLink>
             <span className='header-text position-absolute'>COMEDY TOUR NFT DASHBOARD</span>
         </div>
     </>
