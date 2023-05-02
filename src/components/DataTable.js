@@ -20,7 +20,8 @@ function Datatable() {
         );
 
         // const data = await response.json();
-        setBurnData(response.data);
+        // console.log("respose = ", response);
+        setBurnData(response.data.data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -31,7 +32,7 @@ function Datatable() {
     getBurnRaffles();
   }, [page]);
 
-  console.log("burnData = ", burnData);
+  // console.log("burnData = ", burnData);
 
   return (
     <>
